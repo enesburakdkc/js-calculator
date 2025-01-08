@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastOperator;
     let lastOperatorIndex;
     let remainingPart = '';
-    
+
     // Trigger actions when any button is pressed
     buttons.forEach(button => {
         button.addEventListener('click', () => {
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 // Determine the remaining part
-                if (lastOperatorIndex !== -1) { 
+                if (lastOperatorIndex !== -1) {
                     remainingPart = result.slice(lastOperatorIndex + 1);
                 } else {
                     // If there is no operator, set the remaining part equal to the result
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Clear the display when a number is pressed after pressing equals
-            function cleanAfterPressEquals(){
+            function cleanAfterPressEquals() {
                 if (charAtLast == 'equals' && numbers.includes(button.value)) {
                     result = button.value;
                     charAtLast = button.value;
@@ -102,10 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (remainingPart.charAt(0) == '0' && numbers.includes(remainingPart.charAt(1))) {
                     result = result.slice(0, lastOperatorIndex + 1) + remainingPart.substr(1);
                 }
-                
+
                 // Display the value on the screen and set the last pressed character
                 display.value = result;
                 charAtLast = button.value;
+                // Scroll to the end of the input field
+                display.scrollLeft = display.scrollWidth;
+
             }
 
             // Check conditions for each button
@@ -131,9 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (lastOperator == '-') {   // If the last operator is '-'
                     // Check the previous operator before pressing the toggle sign button. If it is '%', '/', 'x', or '.', do not add '+'
                     if ((operators.includes(result[lastOperatorIndex - 1]) && result[lastOperatorIndex - 1] != '-') || lastOperatorIndex == 0) {
-                        result = result.slice(0, lastOperatorIndex ) + result.slice(lastOperatorIndex + 1);
+                        result = result.slice(0, lastOperatorIndex) + result.slice(lastOperatorIndex + 1);
                     } else {    // Add '+'
-                        result = result.slice(0, lastOperatorIndex ) + '+' + result.slice(lastOperatorIndex + 1);
+                        result = result.slice(0, lastOperatorIndex) + '+' + result.slice(lastOperatorIndex + 1);
                     }
                 } else if (lastOperator == '+') {   // If the last operator is '+'
                     result = result.slice(0, lastOperatorIndex) + '-' + result.slice(lastOperatorIndex + 1);
@@ -142,9 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 displayResult();
             } else if (button.id == 'backspace') {           // When '<--' is pressed
                 // If the result is not '0', remove one character
-                if(result != '0' ){ result = result.slice(0, -1); }
+                if (result != '0') { result = result.slice(0, -1); }
                 // If the result is empty, reset it to '0'
-                if(result == ''){ result = '0'; }
+                if (result == '') { result = '0'; }
                 // Check conditions and display the result
                 displayResult();
             } else if (button.id == 'decimal') {             // When '.' is pressed
